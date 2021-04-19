@@ -12,17 +12,33 @@ import org.springframework.context.annotation.Primary;
 public class DataSourceConfigurations {
     @Bean
     @Primary
-    @ConfigurationProperties("app.datasource")
-    public DataSourceProperties DataSourceProperties() {
+    @ConfigurationProperties("app.datasource.postgres")
+    public DataSourceProperties masterDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean
-    @ConfigurationProperties("app.datasource.configuration")
-    public HikariDataSource dataSource(DataSourceProperties properties) {
-        return properties
+    @Primary
+    @ConfigurationProperties("app.datasource.postgres.configuration")
+    public HikariDataSource masterDataSource() {
+        return masterDataSourceProperties()
             .initializeDataSourceBuilder()
             .type(HikariDataSource.class)
             .build();
     }
+
+    @Bean
+    @ConfigurationProperties("app.datasource.mysql")
+    public DataSourceProperties slaveDataSourceProperties() {
+        return new DataSourceProperties();
+    }
+
+    @Bean
+    @ConfigurationProperties("app.datasource.mysql.configuration")
+    public HikariDataSource slaveDataSource() {
+        return slaveDataSourceProperties()
+            .initializeDataSourceBuilder()
+            .type(HikariDataSource.class)
+            .build();
+    } 
 }
