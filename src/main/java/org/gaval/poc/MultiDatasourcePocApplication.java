@@ -18,16 +18,3 @@ public class MultiDatasourcePocApplication {
 	}
 
 }
-
-@RestController
-@RequestMapping("/api/v1/memo")
-class MemoController{
-	
-	Logger logger = LoggerFactory.getLogger(MemoController.class);
-	
-	@GetMapping
-	public ResponseEntity<String> getMemo(@RequestParam String param1){
-		logger.info(param1);
-		return ResponseEntity.ok("{Message:\"Hello, World!\"}");
-	}
-}
