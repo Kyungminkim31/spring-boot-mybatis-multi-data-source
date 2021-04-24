@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -31,10 +32,12 @@ public class MyBatisConfiguration {
 		final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(postgresDataSource);
 		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath*:mybatis/postgresql/**/*.xml"));
+		sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
+		
 		return sqlSessionFactoryBean.getObject();
 	}
 	
-	@Bean
+	@Bean(name="postgresSessionTemplte")
 	@Primary
 	public SqlSessionTemplate sqlSessionTemplateForPostgres(
 			@Named(POSTGRES_SESSION_FACTORY)
@@ -50,14 +53,15 @@ public class MyBatisConfiguration {
 		final SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(mySqlDataSource);
 		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath*:mybatis/mysql/**/*.xml"));	
+		sqlSessionFactoryBean.setVfs(SpringBootVFS.class);
 		return sqlSessionFactoryBean.getObject();
 	}
 	
-	@Bean
+	@Bean(name = "mysqlSessionTemplate")
 	public SqlSessionTemplate sqlSessionTemplateForMySQL(
 			@Named(MYSQL_SESSION_FACTORY)
-			final SqlSessionFactory postgreSqlSessionFactory) throws Exception {
-		return new SqlSessionTemplate(postgreSqlSessionFactory);
+			final SqlSessionFactory mySqlSessionFactory) throws Exception {
+		return new SqlSessionTemplate(mySqlSessionFactory);
 	}
 
 }

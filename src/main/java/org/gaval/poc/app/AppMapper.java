@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AppMapper {
-	public List<App> selectApps();
+	public List<App> selectApp();
 }

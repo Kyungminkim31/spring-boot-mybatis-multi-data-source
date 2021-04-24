@@ -15,8 +15,11 @@ public class AppController {
 	@Autowired
 	private AppMapper appMapper;
 	
+	@Autowired
+	private AppDao appDao;
+	
 	@GetMapping(path="/")
-	public ResponseEntity<List<App>> getApps() {
-		return ResponseEntity.ok(appMapper.selectApps());
+	public ResponseEntity<List<Object>> getApps() {
+		return ResponseEntity.ok(appDao.selectApps());
 	}
 }
