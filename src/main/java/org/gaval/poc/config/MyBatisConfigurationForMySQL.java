@@ -1,6 +1,5 @@
 package org.gaval.poc.config;
 
-import javax.inject.Named;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -38,7 +37,7 @@ public class MyBatisConfigurationForMySQL {
 	
 	@Bean(name = MYSQL_SESSION_TEMPLATE)
 	public SqlSessionTemplate sqlSessionTemplateForMySQL(
-			@Named(MYSQL_SESSION_FACTORY)
+			@Qualifier(MYSQL_SESSION_FACTORY)
 			final SqlSessionFactory mySqlSessionFactory) throws Exception {
 		return new SqlSessionTemplate(mySqlSessionFactory);
 	}

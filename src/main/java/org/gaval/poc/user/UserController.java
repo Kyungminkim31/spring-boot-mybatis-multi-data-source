@@ -18,7 +18,6 @@ public class UserController {
 	@GetMapping(path="/")
 	public ResponseEntity<List<User>> getUserList() {
 		return ResponseEntity.ok(userMapper.selectUsers());
-		
 	}
 	
 
